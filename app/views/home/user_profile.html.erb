@@ -1,0 +1,8 @@
+<div><%= image_tag("http://localhost:3002#{@user['avatar_data']}",  width: "50", height: "50") %></div></br>
+<p>First Name <%= @user['first_name'] %></p>
+<p>Last Name <%= @user['last_name'] %></p>
+<p>Email <%= @user['email'] %></p>
+<p>Contact No <%= @user['contact_no'] %></p>
+<p>Date Of Birth <%= @user['dob'] %></p>
+
+ <%#= image_tag url_for(product_image.variant(resize: "360x360").processed) %>

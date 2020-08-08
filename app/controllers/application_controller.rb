@@ -2,11 +2,13 @@ class ApplicationController < ActionController::Base
 	before_action :authenticate_request!
   
   def authenticate_request!
-    unless session[:auth_token]
+    unless session[:user_id]
     	@user = ''
-    	redirect_to user_login_path
+    	redirect_to root_path
     else
-      @user = Api.new.get_user(session[:auth_token])
+    	@user = User.find(session[:user_id])
+      # @user = Api.new.get_user(session[:auth_token])
     end
   end
+
 end

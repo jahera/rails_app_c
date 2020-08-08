@@ -1,7 +1,15 @@
 class HomeController < ApplicationController
-	before_action :authenticate_request!, only: [:index, :user_profile]
+	before_action :authenticate_request!, only: [:user_profile]
 
   def index
+    if params[:auth_token]
+      token = params[:auth_token]
+      @auth_token ||= JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+      @user = User.find_by_email(@auth_token['email'])
+      if @user.present?
+        session[:user_id] = @user.id
+      end
+    end
   end
 
   def user_profile
@@ -21,6 +29,7 @@ class HomeController < ApplicationController
   end
 
   def login
+    redirect_to "http://localhost:3000/user/sign_in?token=#{User.first.auth_token}"
   end
 
   def authenticate_user
@@ -31,9 +40,11 @@ class HomeController < ApplicationController
   end
 
   def destroy
-    @responds = Api.new.destroy_user(session[:auth_token], "/users/sign_out")
-    session[:auth_token] = nil
+    session[:user_id] = nil
     redirect_to root_path
+    # @responds = Api.new.destroy_user(session[:auth_token], "/users/sign_out")
+    # session[:auth_token] = nil
+    # redirect_to root_path
   end
 
   private

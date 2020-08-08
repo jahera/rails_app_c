@@ -6,13 +6,13 @@ default: &default
 
 development:
   <<: *default
-  database: rails_app_a_development
+  database: rails_app_c_development
   username: postgres123
   password: postgres123
 
 test:
   <<: *default
-  database: rails_app_a_test
+  database: rails_app_c_test
   username: postgres123
   password: postgres123
 
